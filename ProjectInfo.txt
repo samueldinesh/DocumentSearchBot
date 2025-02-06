@@ -1,0 +1,66 @@
+#Doc Search Bot
+
+###Project setup and Architecture
+
+**Tech Stack**
+
+FrontEnd 
+- React
+
+Backend 
+- Python
+- FastAPI
+
+Vector DB
+- FAISS
+
+LLM
+- OpenAI (gpt4o-mini)
+
+Embedding
+-OpenAI Embedding
+
+##Backend 
+**API Endpoint**
+Routes
+- Login
+- Dashboard
+- upload
+- delete
+- query
+
+##Frontend
+**Login Previlage**
+- Admin
+- User
+
+**Admin**
+x Dashboard with View docuements
+- Add button- Upload documents (pdf,docs,excel,ppt) upto 2MB
+x Select checkbox
+- Delete button ( delete the selected docuements)
+- Q&A chat Dashboard (Query the docuement)
+
+**User**
+- Q&A chat Dashboard
+
+##RAG Process
+
+**Organise**
+- Validate file
+- Text extraction from various format
+- Chunking
+- Create vector embedding of the text chunk
+- Store in Vector DB
+
+**Retrieve**
+- Input query
+- Convert query to embedding
+- retrive the similar embedding from vector db
+- Score and Rank the retrived chunks
+- Retrive the k-top chunk 
+
+**Generator**
+- Prepare the required prompt with the input query and retrieved k-top chunk
+- Pass prompt to LLM
+- LLM generate the result for the user input query based on the document k-top chunk

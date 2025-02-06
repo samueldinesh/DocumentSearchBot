@@ -1,0 +1,17 @@
+fastapi 
+uvicorn
+python-multipart 
+aiofiles
+openai 
+python-docx 
+PyPDF2 
+pandas 
+python-pptx
+pydantic
+python-dotenv
+filetype
+langchain
+langchain_openai
+langchain_community
+faiss-cpu
+langchain_google_genai
