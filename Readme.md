@@ -30,8 +30,6 @@ The bot uses GoogleGenerativeAIEmbeddings (configured for Gemini 2.0) for genera
   - [Frontend](#frontend)
 - [API Endpoints](#api-endpoints)
 - [Testing](#testing)
-- [Future Enhancements](#future-enhancements)
-- [License](#license)
 
 ## Architecture
 
@@ -61,12 +59,13 @@ The application is divided into two main layers:
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/document-search-bot.git
-   cd document-search-bot
+   git clone https://github.com/samueldinesh/DocumentSearchBot.git
+   cd DocumentSearchBot
    ```
 
 2. **Create a virtual environment and install dependencies**:
    ```bash
+   cd backend
    python -m venv venv
    source venv/bin/activate   # On Windows: venv\Scripts\activate
    pip install -r requirements.txt
@@ -77,9 +76,6 @@ The application is divided into two main layers:
    ```env
    OPENAI_API_KEY=your_openai_api_key_here
    GOOGLE_API_KEY=your_google_api_key_here
-   GEMINI_API_KEY=your_gemini_api_key_here
-   GOOGLE_MODEL=gemini-2.0-flash-thinking-exp-01-21
-   GOOGLE_EMBEDDING_MODEL=models/text-embedding-004
    ```
 
 4. **Run the Backend**:
@@ -91,6 +87,7 @@ The application is divided into two main layers:
 
 1. **Navigate to the frontend directory** (if separate) or use the provided Vite template:
    ```bash
+   cd ..
    cd frontend
    npm install
    ```
@@ -165,30 +162,9 @@ Automated tests have been implemented using Pytest and FastAPI's TestClient. To 
 
 2. **Run the tests**:
    ```bash
-   pytest
+   pytest test_backend.py
    ```
 
 The tests cover scenarios for file upload (valid, unsupported types, oversized files), file retrieval, deletion, and the chat endpoint response.
-
-## Future Enhancements
-
-- **Authentication & Authorization**:  
-  Implement robust JWT-based authentication for secure access control.
-  
-- **Granular Vector Store Updates**:  
-  Instead of re-embedding on deletion, enhance the vector store to remove only the embeddings associated with the deleted document.
-  
-- **Scalability & Performance**:  
-  Optimize processing for large files and high query loads using asynchronous processing and caching.
-  
-- **UI/UX Improvements**:  
-  Further refine the frontend for a more intuitive and responsive user experience.
-  
-- **Deployment**:  
-  Containerize the application with Docker and deploy on cloud infrastructure.
-
-## License
-
-This project is released under the [MIT License](LICENSE).
 
 ---
