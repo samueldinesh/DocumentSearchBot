@@ -19,7 +19,7 @@ const Login = () => {
       login(userData);
       navigate(userData.role === 'admin' ? '/admin' : '/chat');
     } catch (err) {
-      setError('Login failed. Try "admin" or "user" as username.');
+      setError('Login failed. Try with correct credentials');
     }
   };
 

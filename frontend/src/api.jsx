@@ -12,9 +12,9 @@ export const loginUser = async (username, password) => {
   // For demo, we simply resolve with role based on username
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      if (username === 'admin') {
+      if (username === 'admin' && password === 'adminpass') {
         resolve({ token: 'admin-token', role: 'admin' });
-      } else if (username === 'user') {
+      } else if (username === 'user' && password === 'userpass') {
         resolve({ token: 'user-token', role: 'user' });
       } else {
         reject(new Error('Invalid credentials'));
