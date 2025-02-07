@@ -4,7 +4,7 @@ from typing import List, Optional
 from langchain_community.vectorstores import FAISS
 from langchain_openai import OpenAIEmbeddings
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
-from app.config import FAISS_INDEX_PATH, OPENAI_API_KEY
+from app.config import FAISS_INDEX_PATH, OPENAI_API_KEY,GOOGLE_EMBEDDING_MODEL
 
 logger = logging.getLogger(__name__)
 
@@ -21,7 +21,7 @@ class VectorStoreManager:
 
     @classmethod
     def _initialize_vectorstore(cls):
-        embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+        embeddings = GoogleGenerativeAIEmbeddings(model=GOOGLE_EMBEDDING_MODEL)
         
         try:
             if not FAISS_INDEX_PATH.exists():
@@ -49,7 +49,7 @@ class VectorStoreManager:
             if not chunks:
                 raise ValueError("No text chunks provided for indexing")
             
-            embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+            embeddings = GoogleGenerativeAIEmbeddings(model=GOOGLE_EMBEDDING_MODEL)
 
             if self._vectorstore is None:
                 logger.info("Creating new FAISS vector store")

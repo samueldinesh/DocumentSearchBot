@@ -1,7 +1,7 @@
 from langchain_openai import ChatOpenAI
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.prompts import ChatPromptTemplate
-from app.config import OPENAI_API_KEY
+from app.config import OPENAI_API_KEY,GOOGLE_API_KEY,GOOGLE_MODEL
 
 class LLMManager:
     def __init__(self):
@@ -11,7 +11,7 @@ class LLMManager:
             temperature=0.3
         )"""
         self.llm = ChatGoogleGenerativeAI(
-            model="gemini-2.0-flash",
+            model=GOOGLE_MODEL, #"gemini-2.0-flash-thinking-exp-01-21", #"gemini-2.0-flash",
             temperature=0,
             max_tokens=None,
             timeout=None,

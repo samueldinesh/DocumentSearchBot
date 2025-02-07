@@ -1,7 +1,7 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException, status
 from app.services.document_processor import DocumentProcessor
 from app.services.vector_store import VectorStoreManager
-from app.config import DOCUMENT_PATH,ALLOWED_FILE_TYPES
+from app.config import DOCUMENT_PATH,ALLOWED_FILE_TYPES,MAX_FILE_SIZE
 import shutil
 import os
 
@@ -16,11 +16,23 @@ async def upload_file(file: UploadFile = File(...)):
             raise HTTPException(status.HTTP_415_UNSUPPORTED_MEDIA_TYPE, 
                               detail="Unsupported file type")
         
+        # File validation: size check
+        file_size = 0
+        file.file.seek(0, os.SEEK_END)
+        file_size = file.file.tell()
+        #print(file_size)
+        file.file.seek(0)
+        #print(file.file)
+        if file_size > MAX_FILE_SIZE:
+            raise HTTPException(
+                status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,
+                detail="File size exceeds 2MB limit"
+            )
+
         # Save file
         file_path = DOCUMENT_PATH / file.filename
         with file_path.open("wb+") as buffer:
             shutil.copyfileobj(file.file, buffer)
-        
         # Process document
         text = DocumentProcessor.extract_text(str(file_path), file.filename)
         chunks = DocumentProcessor.chunk_text(text)
@@ -29,7 +41,8 @@ async def upload_file(file: UploadFile = File(...)):
         vector_manager.update_index(chunks, {"filename": file.filename})
         
         return {"message": f"File {file.filename} processed successfully"}
-    
+    except HTTPException as http_exc:
+        raise http_exc  # ✅ Return correct 415 or 413 error
     except Exception as e:
         raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, 
                           detail=str(e))
@@ -68,8 +81,6 @@ async def delete_file(filename: str):
         #vector_manager.remove_from_index({"filename": filename})
 
         if remaining_files:  # Re-embed if other documents are present
-            all_chunks = []
-            metadata_list = []
             try:
                 for file in remaining_files:
                     file_full_path = DOCUMENT_PATH / file
@@ -78,13 +89,12 @@ async def delete_file(filename: str):
                     vector_manager.update_index(chunks, {"filename": file})
             except Exception as e:
                 print(e)
-                #all_chunks.extend(chunks)
-                #metadata_list.extend([{"filename": file}] * len(chunks))
             
             #vector_manager.update_index(all_chunks, metadata_list)
         
         return {"message": f"File {filename} deleted successfully and embeddings updated"}
-
+    except HTTPException as http_exc:
+        raise http_exc  # ✅ Return correct 415 or 413 error
     except Exception as e:
         raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, 
                           detail=str(e))

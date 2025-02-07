@@ -16,6 +16,8 @@ FAISS_INDEX_PATH.mkdir(exist_ok=True)
 # App settings
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+GOOGLE_MODEL="gemini-2.0-flash-thinking-exp-01-21"
+GOOGLE_EMBEDDING_MODEL="models/text-embedding-004"
 MAX_FILE_SIZE = 2 * 1024 * 1024  # 2MB
 ALLOWED_FILE_TYPES = {
     "application/pdf": ".pdf",
