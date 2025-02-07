@@ -4,5 +4,8 @@ notes.txt
 process_notes.txt
 .env
 
-storage
-faiss_index
+storage/
+faiss_index/
+
+backend.bat
+/backend/main_single.py
