@@ -3,9 +3,18 @@ __pycache__
 notes.txt
 process_notes.txt
 .env
+.gitignore
 
-storage/
-faiss_index/
+*.faiss
+*.pkl
 
-backend.bat
+*.pdf
+*.doc
+*.docx
+*.xls
+*.ppt
+*.pptx
+
+/backend/backend.bat
+/backend/update.bat
 /backend/main_single.py
